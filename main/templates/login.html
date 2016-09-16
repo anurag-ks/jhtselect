@@ -1,0 +1,47 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+</head>
+<style type="text/css">
+    body{
+        padding: 10px;
+        padding-right: 10%;
+        padding-left: 10%;
+    }
+
+    .header{
+        text-align: center;
+        color: black;
+    }
+</style>
+<body>
+    <div class="ui header">
+        J.H. Tarapore School<br>
+        Elections 2016-17<br>
+        <img class="ui small image" src="{% static 'school_logo.jpeg' %}">
+    </div>
+
+    <form action="#" method="post" class="ui mini form">
+        {% csrf_token %}
+        <div class="field">
+            <label>
+                Username
+            </label>
+            <input type="text" name="username" class="ui input">
+        </div>
+        <div class="field">
+            <label>
+                Password
+            </label>
+            <input type="password" name="password">
+        </div>
+        <input type="submit" class="ui blue button" value="Login">
+    </form>
+    <div class="ui center aligned container">
+        <p><i>Made with <i class="heart icon"></i> by <a href="https://github.com/anurag-ks">Anurag Sharma</a></i></p>
+    </div>
+</body>
+</html>

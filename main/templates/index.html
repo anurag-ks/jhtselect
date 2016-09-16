@@ -1,0 +1,142 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elections</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+    <script type="text/javascript" src="{% static 'js/jquery-1.12.4.js' %}"></script>
+    <script type="text/javascript" src="{% static 'css/semantic.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+
+    <style type="text/css">
+    body{
+        padding: 10px;
+        padding-right: 10%;
+        padding-left: 10%;
+    }
+
+    .header{
+        text-align: center;
+        color: black;
+    }
+
+    .logout{
+        position: absolute;
+        right: 5%;
+    }
+    </style>
+</head>
+<body>
+    <a href="/logout" class="logout">
+        <button class="ui red inverted button">Logout</button>
+    </a>
+    <div class="ui header">
+        J.H. Tarapore School<br>
+        Elections 2016-17<br>
+        <img class="ui small image" src="{% static 'school_logo.jpeg' %}">
+    </div>
+    <div class="ui raised segment">
+        <div class="ui center aligned italics container">
+            <i class="quote left icon"></i>
+            <i>The ignorance of one voter in a democracy impairs the security of all.</i>
+            <i class="quote right icon"></i>
+            <br>
+            - John F. Kennedy
+        </div>
+        <form method="POST" class="ui form teal fluid segment">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="ui red message">
+                    <div class="header">We had some issues</div>
+                    <ul class="list">
+                        {% if form.spl_candidates.errors %}
+                            <li>Please select an SPL</li>
+                        {% endif %}
+                        {% if form.aspl_candidates.errors %}
+                            <li>Please select an ASPL</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+                <div>
+                    <h3 class="ui horizontal divider header">
+                      School Pupil Leader
+                    </h3>
+                    <table class="ui fixed celled teal striped table">
+                        <thead>
+                            <tr class="center aligned">
+                                <th>Symbol</th>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Select</th>
+                            </tr>
+                        </thead>
+                        {% for data in form.spl_candidates.field.queryset %}
+                        <tr class="center aligned">
+                            <td>
+                                <center>
+                                    <img src="{{ data.symbol.url }}" class="ui small rounded image">
+                                </center>
+                            </td>
+                            <td>
+                                <center>
+                                    <img src="{{ data.photo.url }}" class="ui small bordered rounded image">
+                                </center>
+                            </td>
+                            <td>
+                                <h3>{{ data.name }}</h3>
+                            </td>
+                            <td>
+                                 <input type="radio" class="ui radio checkbox" for="id_spl_candidates_{{ forloop.counter0 }}" name="spl_candidates" value="{{ data.id }}">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <br>
+                <br>
+                <div>
+                    <h3 class="ui horizontal divider header">
+                      Assistant School Pupil Leader
+                    </h3>
+                    <table class="ui fixed celled teal striped table">
+                        <thead>
+                            <tr class="center aligned">
+                                <th>Symbol</th>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Select</th>
+                            </tr>
+                        </thead>
+                        {% for data in form.aspl_candidates.field.queryset %}
+                        <tr class="center aligned">
+                            <td>
+                                <center>
+                                    <img src="{{ data.symbol.url }}" class="ui small bordered rounded image">
+                                </center>
+                            </td>
+                            <td>
+                                <center>
+                                    <img src="{{ data.photo.url }}" class="ui small bordered rounded image">
+                                </center>
+                            </td>
+                            <td>
+                                <h3>{{ data.name }}</h3>
+                            </td>
+                            <td>
+                                 <input type="radio" class="ui radio checkbox" for="id_aspl_candidates_{{ forloop.counter0 }}" name="aspl_candidates" value="{{ data.id }}">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="ui inverted divider"></div>
+                <center>
+                    <input class="ui teal huge button" type="submit" value="Submit" />
+                </center>
+                <div class="ui divider"></div>
+        </form>
+    </div>
+</body>
+</html>
